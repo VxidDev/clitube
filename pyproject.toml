@@ -1,0 +1,10 @@
+[project]
+name = "clitube"
+version = "0.1.0"
+description = "Control youtube from the terminal!"
+authors = [{ name="VxidDev" }]
+dependencies = ["colorama"]
+
+[project.scripts]
+clitube = "clitube.main:main"
+
