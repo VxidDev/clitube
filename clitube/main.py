@@ -10,7 +10,8 @@ def main():
     parser.add_argument("-id" , help="ID of the video to use it instead of searching!")
     parser.add_argument("-p" , "--play" , action="store_true" , help="play the video!")
     parser.add_argument("-d" , "--download" , action="store_true" , help="download the video!")
-    parser.add_argument("-s" , "--search" , help="number of searches for the ID!")
+    parser.add_argument("-s" , "--search" , type=int , help="number of searches for the ID!")
+    parser.add_argument("-r" , "--resolution" , type=int , help="resolution of the video!")
     parser.add_argument("-l" , "--loop" , action="store_true" , help="loop the video!")
     parser.add_argument("-nv" , "--no-video" , action="store_true" , help="disable the video!")
     parser.add_argument("-na" , "--no-audio" , action="store_true" , help="disable the audio!")
@@ -24,10 +25,10 @@ def main():
             print(Style.BRIGHT , Fore.RED + "No Video Found!" , Style.RESET_ALL)
             return
             
-        command = f'mpv https://youtube.com/watch?v={video_id}'
+        command = f'mpv https://youtube.com/watch?v={video_id} -S res:{args.resolution}'
 
     if args.id:
-        command = f'mpv https://youtube.com/watch?v={args.id}'
+        command = f'mpv https://youtube.com/watch?v={args.id} -S res:{args.resolution}'
     
     if args.play:
         if args.loop:
@@ -39,19 +40,15 @@ def main():
 
         os.system(command)
     elif args.download:
-        os.system(f"yt-dlp {command}")
+        os.system(f"yt-dlp {command.removeprefix('mpv').strip()}")
 
     if args.search:
-        try:
-            print(Style.BRIGHT , Fore.WHITE + "Searching..." , Style.RESET_ALL)
-            video_data = subprocess.run(["yt-dlp" , f"ytsearch{int(args.search)}: {args.name}" , "--get-id" , "--get-title"] , capture_output=True , text=True)
-            if video_data.stdout != '':
-                print(video_data.stdout)
-            else:
-                print(Style.BRIGHT , Fore.RED + "No Videos Found!" , Style.RESET_ALL)
-        except ValueError:
-            print(Style.BRIGHT , Fore.RED , "You must provide a number in -s argument!" , Style.RESET_ALL)
-            return
+        print(Style.BRIGHT , Fore.WHITE + "Searching..." , Style.RESET_ALL)
+        video_data = subprocess.run(["yt-dlp" , f"ytsearch{int(args.search)}: {args.name}" , "--get-id" , "--get-title"] , capture_output=True , text=True)
+        if video_data.stdout != '':
+            print(video_data.stdout)
+        else:
+            print(Style.BRIGHT , Fore.RED + "No Videos Found!" , Style.RESET_ALL)
 
 if __name__ == "__main__":
     main()
