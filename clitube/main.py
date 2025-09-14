@@ -11,7 +11,6 @@ def main():
     parser.add_argument("-p" , "--play" , action="store_true" , help="play the video!")
     parser.add_argument("-d" , "--download" , action="store_true" , help="download the video!")
     parser.add_argument("-s" , "--search" , type=int , help="number of searches for the ID!")
-    parser.add_argument("-r" , "--resolution" , type=int , help="resolution of the video!")
     parser.add_argument("-l" , "--loop" , action="store_true" , help="loop the video!")
     parser.add_argument("-nv" , "--no-video" , action="store_true" , help="disable the video!")
     parser.add_argument("-na" , "--no-audio" , action="store_true" , help="disable the audio!")
@@ -25,10 +24,10 @@ def main():
             print(Style.BRIGHT , Fore.RED + "No Video Found!" , Style.RESET_ALL)
             return
             
-        command = f'mpv https://youtube.com/watch?v={video_id} -S res:{args.resolution}'
+        command = f'mpv https://youtube.com/watch?v={video_id}'
 
     if args.id:
-        command = f'mpv https://youtube.com/watch?v={args.id} -S res:{args.resolution}'
+        command = f'mpv https://youtube.com/watch?v={args.id}'
     
     if args.play:
         if args.loop:
