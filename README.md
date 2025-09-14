@@ -39,16 +39,16 @@ Make sure the following are installed and available in your PATH:
 ## Usage
 ### Play a video by name
 ```bash
-clitube --name="Song Name" --play
+clitube --name "Song Name" --play
 ```
 ### Play a video by ID
 ```bash
-clitube --id=<VIDEO_ID> --play
+clitube --id <VIDEO_ID> --play
 ```
 ### Download a video by name or ID
 ```bash
-clitube --name="Song Name" --download
-clitube --id=<VIDEO_ID> --download
+clitube --name "Song Name" --download
+clitube --id <VIDEO_ID> --download
 ```
 ### Additional options
 
@@ -60,7 +60,7 @@ clitube --id=<VIDEO_ID> --download
 
 ### Search for multiple results
 ```bash
-clitube --name="Song Name" --search 5
+clitube --name "Song Name" --search 5
 ```
 # License
 
