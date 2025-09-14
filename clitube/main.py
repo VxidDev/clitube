@@ -27,7 +27,7 @@ def main():
         command = f'mpv https://youtube.com/watch?v={video_id}'
 
     if args.id:
-        command = f' mpv https://youtube.com/watch?v={args.id}'
+        command = f'mpv https://youtube.com/watch?v={args.id}'
     
     if args.play:
         if args.loop:
