@@ -17,6 +17,8 @@ It’s lightweight, cross-platform (Python + mpv + yt-dlp), and perfect for quic
 
 ## Installation
 
+### TESTED ONLY ON ARCH LINUX!
+
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/VxidDev/clitube.git
