@@ -33,7 +33,7 @@ def main():
 
     check_args(args)
 
-    if not args.play or args.download:
+    if (args.play and args.download and args.search) is (False or None or "False" or "None"):
         return print("No action selected!" + Style.BRIGHT + Fore.RED + " Quiting..." + Style.RESET_ALL)
 
     if args.name and not args.search:
@@ -61,6 +61,9 @@ def main():
         os.system(f"yt-dlp {command.removeprefix('mpv').strip()}")
 
     if args.search:
+        if not args.name:
+            print("Please enter a --name/-name argument with name to search!")
+            return 0
         print(Style.BRIGHT , Fore.WHITE + "Searching..." , Style.RESET_ALL)
         video_data = subprocess.run(["yt-dlp" , f"ytsearch{int(args.search)}: {args.name}" , "--get-id" , "--get-title"] , capture_output=True , text=True)
         if video_data.stdout != '':
