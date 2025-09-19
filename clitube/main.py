@@ -1,9 +1,23 @@
-import os , argparse , subprocess
+import os , argparse , subprocess , sys
 from colorama import Fore , Style , init
 
 init()
 
+def check_args(args):
+    global parser
+    no_vars = True
+    for var , value in vars(args).items():
+        if value not in [False , "False" , None , "None"]:
+            no_vars = False
+        else:
+            pass 
+
+    if no_vars is True:
+        print(parser.description)
+        sys.exit()
+
 def main():
+    global parser
     parser = argparse.ArgumentParser(description="Small script that allows you to control youtube through terminal!")
 
     parser.add_argument("-n" , "--name" , help="name of video to search it!")
@@ -15,8 +29,13 @@ def main():
     parser.add_argument("-nv" , "--no-video" , action="store_true" , help="disable the video!")
     parser.add_argument("-na" , "--no-audio" , action="store_true" , help="disable the audio!")
 
-    args = parser.parse_args()
-    
+    args = parser.parse_args() 
+
+    check_args(args)
+
+    if not args.play or args.download:
+        return print("No action selected!" + Style.BRIGHT + Fore.RED + " Quiting..." + Style.RESET_ALL)
+
     if args.name and not args.search:
         video_id = subprocess.run(f"yt-dlp 'ytsearch1: {args.name}' --get-id" , capture_output=True , shell=True , text=True).stdout.strip()
     
