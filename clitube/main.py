@@ -39,17 +39,18 @@ def main():
     if (args.play and args.download and args.search) is (False or None or "False" or "None"): # check if any action is selected.
         return print("No action selected!" + Style.BRIGHT + Fore.RED + " Quiting..." + Style.RESET_ALL)
 
-    if args.name and not args.search: # get video's id
+    if args.name and not args.search and not args.id: # get video's id
         video_id = subprocess.run(f"yt-dlp 'ytsearch1: {args.name}' --get-id" , capture_output=True , shell=True , text=True).stdout.strip()
     
         if video_id == '': # exit if no video/internet.
             print(Style.BRIGHT , Fore.RED + "No Video Found!" , Style.RESET_ALL)
             return
             
-        command = f'mpv https://youtube.com/watch?v={video_id}' # make basic command.
+        command = f'mpv --ytdl-raw-options=\'extractor-args="youtube:player-client=default,-tv_simply"\' https://youtube.com/watch?v={video_id}' # make basic command.
 
     if args.id:
-        command = f'mpv https://youtube.com/watch?v={args.id}' # skip getting id if id is already passed.
+        command = f'mpv --ytdl-raw-options=\'extractor-args="youtube:player-client=default,-tv_simply"\' https://youtube.com/watch?v={args.id}'
+ # skip getting id if id is already passed.
     
     if args.play: # play action logic.
         if args.loop:
