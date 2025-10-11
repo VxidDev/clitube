@@ -1,6 +1,6 @@
 [project]
 name = "clitube"
-version = "0.2.1"
+version = "1.0.1"
 description = "A simple CLI for playing and downloading YouTube videos"
 authors = [
     { name = "VxidDev" }
