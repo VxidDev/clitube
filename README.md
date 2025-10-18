@@ -48,8 +48,6 @@ pip install .
 
 - tomli
 
-### (Note: colorama is not needed — Rich handles terminal colors.)
-
 ## 💡 Usage
 
 ### Once installed, run clitube followed by a subcommand.
