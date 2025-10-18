@@ -41,6 +41,8 @@ def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False 
         raise typer.BadParameter("You cant use both 'id' and 'name'!")
     if not (id or name):
         raise typer.BadParameter("You must pass either 'id' or 'name'!")
+    if noVideo and noAudio:
+        raise typer.BadParameter("You cant use both of 'noAudio' and 'noVideo' parameters!")
     if debug:
         log("All arguments pass requirements. Proceeding..." , "success")
     
@@ -52,8 +54,8 @@ def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False 
 
     if name:
         console.print(f"[bold white]Fetching video [bold {color}]ID[/bold {color}] based on video name...[/bold white]")
-        video_id = subprocess.run(["yt-dlp" , f"ytsearch: {name}" , "--get-id"] , capture_output=True , text=True).stdout.strip()
-        if video_id == '':
+        videoData = subprocess.run(["yt-dlp" , f"ytsearch: {name}" , "--get-id" , "--get-title"] , capture_output=True , text=True).stdout.strip().split("\n")
+        if videoData == '':
             if debug:
                 log("Empty video id. exiting..." , "fatal")
             console.print(f"[bold red]No videos found! [/bold red][bold white]Consider adding [bold {color}]--debug[/bold {color}].[/bold white]")
@@ -68,8 +70,8 @@ def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False 
     if loop:
         args.append("--loop")
     
-    console.print(f"[bold white]Playing [bold {color}]{name or id}[/bold {color}][/bold white]")
-    subprocess.Popen(["mpv" , f"ytdl://https://youtube.com/watch?v={video_id}" , *args]).wait()
+    console.print(f"[bold white]Playing [bold {color}]{videoData[0] or id}[/bold {color}][/bold white]")
+    subprocess.Popen(["mpv" , f"ytdl://https://youtube.com/watch?v={id if id else videoData[1]}" , *args]).wait()
 
 @app.command() 
 def download(name: str=None , id: str=None , debug: bool=False):
