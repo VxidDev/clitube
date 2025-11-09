@@ -35,6 +35,7 @@ def log(message: str , status: str):
 
 @app.command()
 def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False , noVideo: bool=False , debug: bool=False):
+    videoData = [None , None]
     if debug:
         log("Checking if passed arguments meet requirements..." , "info")
     if id and name:
@@ -55,7 +56,7 @@ def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False 
     if name:
         console.print(f"[bold white]Fetching video [bold {color}]ID[/bold {color}] based on video name...[/bold white]")
         videoData = subprocess.run(["yt-dlp" , f"ytsearch: {name}" , "--get-id" , "--get-title"] , capture_output=True , text=True).stdout.strip().split("\n")
-        if videoData == '':
+        if videoData[1] == '':
             if debug:
                 log("Empty video id. exiting..." , "fatal")
             console.print(f"[bold red]No videos found! [/bold red][bold white]Consider adding [bold {color}]--debug[/bold {color}].[/bold white]")
@@ -70,7 +71,7 @@ def play(name: str=None , id: str=None , loop: bool=False , noAudio: bool=False 
     if loop:
         args.append("--loop")
     
-    console.print(f"[bold white]Playing [bold {color}]{videoData[0] or id}[/bold {color}][/bold white]")
+    console.print(f"[bold white]Playing [bold {color}]{id if id else videoData[0]}[/bold {color}][/bold white]")
     subprocess.Popen(["mpv" , f"ytdl://https://youtube.com/watch?v={id if id else videoData[1]}" , *args]).wait()
 
 @app.command() 
